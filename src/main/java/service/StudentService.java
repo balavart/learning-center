@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 import static dto.Course.*;
+import static service.IOService.getStartDate;
 
 @ToString
 @Getter
@@ -18,11 +19,11 @@ public class StudentService {
 
     public StudentService() {
         Student first = createStudent("Ivanov Ivan", "Java Developer",
-                LocalDate.of(2021, 11, 18),
+                getStartDate(),
                 new HashSet<>(Arrays.asList(JAVA, JDBC, SPRING)));
 
         Student second = createStudent("Sidorov Ivan", "AQE",
-                LocalDate.of(2021, 11, 14),
+                getStartDate(),
                 new HashSet<>(Arrays.asList(TEST_DESIGN, PAGE_OBJECT, SELENIUM)));
 
         students = new ArrayList<>(Arrays.asList(first, second));
