@@ -5,6 +5,10 @@ import service.StudentService;
 public class Application {
 
     public static void main(String[] args) {
-        new IOService(new LearningCenter(new StudentService())).printReport();
+        StudentService studentService = new StudentService();
+        LearningCenter learningCenter = new LearningCenter(studentService);
+        IOService ioService = new IOService(learningCenter);
+
+        ioService.printReport();
     }
 }

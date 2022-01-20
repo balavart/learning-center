@@ -19,13 +19,23 @@ public class IOService {
             System.out.print("Type \"0\" or nothing for short report or type any other character(s) for full report: ");
             String outputValue = in.nextLine().trim();
             int param = outputValue.equals("0") || outputValue.isEmpty() ? 0 : 1;
-            System.out.println(learningCenter.getReport(param));
+            LocalDate reportDate = getReportDate(getYearFromConsole(), getMonthFromConsole());
+            System.out.println(learningCenter.getReport(reportDate, param));
         }
     }
 
-    public static LocalDate getStartDate() {
-        int year = getYear();
-        int month = getMonth();
+    public LocalDate getReportDate(int year, int month) {
+        while (true) {
+            int day = getDayFromConsole();
+            try {
+                return LocalDate.of(year, month, day);
+            } catch (DateTimeException ex) {
+                System.err.println(ex.getMessage());
+            }
+        }
+    }
+
+    public Integer getDayFromConsole() {
         while (true) {
             System.out.println("Type day of month: ");
             String outputValue = new Scanner(System.in).nextLine().trim();
@@ -35,23 +45,19 @@ public class IOService {
                     || Integer.parseInt(outputValue) > 31) {
                 System.err.println("Incorrect day format!");
             } else {
-                int dayOfMonth = Integer.parseInt(outputValue);
-                try {
-                    return LocalDate.of(year, month, dayOfMonth);
-                } catch (DateTimeException ex) {
-                    System.err.println(ex.getMessage());
-                }
+                return Integer.valueOf(outputValue);
             }
         }
     }
 
-    private static Integer getYear() {
+    public Integer getYearFromConsole() {
         while (true) {
-            System.out.println("Type year in format 20xx: ");
+            System.out.println("Type year in format 2xxx: ");
             String outputValue = new Scanner(System.in).nextLine().trim();
             if (!NumberUtils.isNumber(outputValue)
                     || outputValue.isEmpty()
-                    || Integer.parseInt(outputValue) < 2000) {
+                    || Integer.parseInt(outputValue) < 2000
+                    || Integer.parseInt(outputValue) > 2999) {
                 System.err.println("Incorrect year format!");
             } else {
                 return Integer.valueOf(outputValue);
@@ -59,7 +65,7 @@ public class IOService {
         }
     }
 
-    private static Integer getMonth() {
+    public Integer getMonthFromConsole() {
         while (true) {
             System.out.println("Type month in format 1-12: ");
             String outputValue = new Scanner(System.in).nextLine().trim();

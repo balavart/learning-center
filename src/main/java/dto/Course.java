@@ -11,9 +11,9 @@ public enum Course {
     PAGE_OBJECT(16),
     SELENIUM(16);
 
-    int durationHours;
+    private final int durationHours;
 
-    Course(int durationHours) {
+    Course(Integer durationHours) {
         this.durationHours = durationHours;
     }
 }
